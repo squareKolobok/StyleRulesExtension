@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRulesExtensions", "StyleRulesExtensions\StyleRulesExtensions\StyleRulesExtensions.csproj", "{B6DDE14B-EC62-47C6-A8A0-F5564B859A56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRulesExtensions.CodeFixes", "StyleRulesExtensions\StyleRulesExtensions.CodeFixes\StyleRulesExtensions.CodeFixes.csproj", "{FE817E5D-7D3A-4A5D-B44E-0FAF41D3A312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRulesExtensions.Package", "StyleRulesExtensions\StyleRulesExtensions.Package\StyleRulesExtensions.Package.csproj", "{765C8D7A-F66D-4703-BB94-C7516E805A20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRulesExtensions.Test", "StyleRulesExtensions\StyleRulesExtensions.Test\StyleRulesExtensions.Test.csproj", "{4F1902DB-3C7B-4571-B644-37A7B2DF06A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleRulesExtensions.Vsix", "StyleRulesExtensions\StyleRulesExtensions.Vsix\StyleRulesExtensions.Vsix.csproj", "{C263A7D1-DE05-47EF-B37B-DA649FC8FFE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6DDE14B-EC62-47C6-A8A0-F5564B859A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6DDE14B-EC62-47C6-A8A0-F5564B859A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6DDE14B-EC62-47C6-A8A0-F5564B859A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6DDE14B-EC62-47C6-A8A0-F5564B859A56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE817E5D-7D3A-4A5D-B44E-0FAF41D3A312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE817E5D-7D3A-4A5D-B44E-0FAF41D3A312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE817E5D-7D3A-4A5D-B44E-0FAF41D3A312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE817E5D-7D3A-4A5D-B44E-0FAF41D3A312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{765C8D7A-F66D-4703-BB94-C7516E805A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{765C8D7A-F66D-4703-BB94-C7516E805A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{765C8D7A-F66D-4703-BB94-C7516E805A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{765C8D7A-F66D-4703-BB94-C7516E805A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F1902DB-3C7B-4571-B644-37A7B2DF06A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F1902DB-3C7B-4571-B644-37A7B2DF06A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F1902DB-3C7B-4571-B644-37A7B2DF06A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1902DB-3C7B-4571-B644-37A7B2DF06A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C263A7D1-DE05-47EF-B37B-DA649FC8FFE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C263A7D1-DE05-47EF-B37B-DA649FC8FFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C263A7D1-DE05-47EF-B37B-DA649FC8FFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C263A7D1-DE05-47EF-B37B-DA649FC8FFE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7EF30565-4D2C-4EF3-ADCD-B16B26E9C62F}
+	EndGlobalSection
+EndGlobal
