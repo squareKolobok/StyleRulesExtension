@@ -9,9 +9,9 @@
 
   <PropertyGroup>
     <PackageId>StyleRulesExtension</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <PackageVersion>1.0.1.0</PackageVersion>
     <Authors>squareKolobok</Authors>
-    <PackageLicenseUrl>https://github.com/squareKolobok/StyleRulesExtension/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/squareKolobok/StyleRulesExtension</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>StyleRulesExtension</Description>
