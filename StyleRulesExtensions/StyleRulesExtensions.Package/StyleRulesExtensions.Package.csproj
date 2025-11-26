@@ -8,16 +8,16 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>StyleRulesExtensions</PackageId>
+    <PackageId>StyleRulesExtension</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>mikhalev_nv</Authors>
+    <Authors>squareKolobok</Authors>
     <PackageLicenseUrl>https://github.com/squareKolobok/StyleRulesExtension/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/squareKolobok/StyleRulesExtension</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>StyleRulesExtensions</Description>
+    <Description>StyleRulesExtension</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>StyleRulesExtensions, analyzers</PackageTags>
+    <PackageTags>StyleRulesExtension, analyzers</PackageTags>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoPackageAnalysis>true</NoPackageAnalysis>
 

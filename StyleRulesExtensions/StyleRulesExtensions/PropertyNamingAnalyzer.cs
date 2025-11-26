@@ -1,7 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace StyleRulesExtensions
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class PropertyNamingAnalyzer : BasePascalCaseNamingAnalyzer<IPropertySymbol>
     {
         public const string DiagnosticId = "property_naming";

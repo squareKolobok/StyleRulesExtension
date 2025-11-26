@@ -1,7 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace StyleRulesExtensions
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class MethodNamingAnalyzer : BasePascalCaseNamingAnalyzer<IMethodSymbol>
     {
         public const string DiagnosticId = "method_naming";
