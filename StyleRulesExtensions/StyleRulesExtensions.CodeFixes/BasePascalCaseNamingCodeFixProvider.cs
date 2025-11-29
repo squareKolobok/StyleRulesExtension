@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Rename;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
@@ -54,8 +55,30 @@ namespace StyleRulesExtensions
             var optionSet = solution.Workspace.Options;
 
             var name = GetName(methodDeclaration);
-            var newName = char.ToUpper(name[0]) + name.Substring(1);
+            var newNameArray = new List<char>();
 
+            for (var index = 0; index < name.Length; index++)
+            {
+                if ((name[index] == '@' && index == 0) || char.IsDigit(name[index]) || char.IsUpper(name[index]))
+                {
+                    newNameArray.Add(name[index]);
+                    continue;
+                }
+
+                if (!char.IsLower(name[index]))
+                    continue;
+
+                if ((index > 0 && name[index - 1] == '_') ||
+                    (index > 0 && name[index - 1] == '@') ||
+                    index == 0)
+                {
+                    newNameArray.Add(char.ToUpper(name[index]));
+                }
+                else
+                    newNameArray.Add(name[index]);
+            }
+
+            var newName = new string(newNameArray.ToArray());
             var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
             var symbol = semanticModel.GetDeclaredSymbol(methodDeclaration, cancellationToken);
 

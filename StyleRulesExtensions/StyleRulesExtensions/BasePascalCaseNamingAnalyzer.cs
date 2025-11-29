@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StyleRulesExtensions
 {
@@ -11,6 +11,7 @@ namespace StyleRulesExtensions
         private const string Category = "Naming";
         private readonly DiagnosticDescriptor _rule;
         private readonly SymbolKind _symbolKind;
+        private static readonly Regex nameRegex = new Regex("^@?[A-Z][a-zA-Z0-9]*$");
 
         public BasePascalCaseNamingAnalyzer(SymbolKind symbolKind, string diagnosticId, LocalizableString title, LocalizableString messageFormat, LocalizableString description)
         {
@@ -34,15 +35,23 @@ namespace StyleRulesExtensions
             context.RegisterSymbolAction(AnalyzeSymbol, _symbolKind);
         }
 
+        protected virtual bool NeedEndDiagnistic(TSymbol symbol)
+        {
+            return false;
+        }
+
         private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
             var namedTypeSymbol = (TSymbol)context.Symbol;
             var name = namedTypeSymbol.Name;
 
+            if (NeedEndDiagnistic(namedTypeSymbol))
+                return;
+
             if (string.IsNullOrEmpty(name))
                 return;
 
-            if (char.IsUpper(name.First()))
+            if (nameRegex.IsMatch(name))
                 return;
 
             var diagnostic = Diagnostic.Create(_rule, namedTypeSymbol.Locations[0], name);
