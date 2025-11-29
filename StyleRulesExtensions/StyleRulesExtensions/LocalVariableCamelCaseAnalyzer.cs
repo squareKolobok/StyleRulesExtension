@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StyleRulesExtensions
 {
@@ -15,7 +15,8 @@ namespace StyleRulesExtensions
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.LocalVariableCamelCaseTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.LocalVariableCamelCaseMessageFormat), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.LocalVariableCamelCaseDescription), Resources.ResourceManager, typeof(Resources));
-
+        private static readonly Regex nameRegex = new Regex("^@?[a-z][a-zA-Z0-9]*$");
+        
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             DiagnosticId,
             Title,
@@ -46,7 +47,7 @@ namespace StyleRulesExtensions
             if (string.IsNullOrEmpty(name))
                 return;
 
-            if (char.IsLower(name.First()))
+            if (nameRegex.IsMatch(name))
                 return;
 
             var diagnostic = Diagnostic.Create(Rule, variable.Identifier.GetLocation(), name);

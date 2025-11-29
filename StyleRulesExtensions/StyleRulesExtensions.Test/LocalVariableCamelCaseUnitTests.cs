@@ -23,6 +23,9 @@ namespace StyleRulesExtensions.Test
 					{
 						const int MY_CONSTANT = 100;
 						var [|LocalVariable|] = 2;
+						var [|local_variable2|] = 3;
+						var [|_Local_variable3|] = 3;
+						var [|Class|] = 4;
 						LocalVariable = LocalVariable * MY_CONSTANT;
 					}
 				}
@@ -39,6 +42,9 @@ namespace StyleRulesExtensions.Test
 					{
 						const int MY_CONSTANT = 100;
 						var localVariable = 2;
+						var localVariable2 = 3;
+						var localVariable3 = 3;
+						var @class = 4;
 						localVariable = localVariable * MY_CONSTANT;
 					}
 				}
@@ -61,6 +67,7 @@ namespace StyleRulesExtensions.Test
 					{
 						const int MY_CONSTANT = 100;
 						var [|LocalVariables|] = 2;
+						var [|local_variable2|] = 3;
 						var localVariables2 = LocalVariables * MY_CONSTANT;
 					}
 				}
