@@ -9,10 +9,11 @@
 
   <PropertyGroup>
     <PackageId>StyleRulesExtension</PackageId>
-    <PackageVersion>1.0.1.0</PackageVersion>
+    <PackageVersion>1.0.2.0</PackageVersion>
     <Authors>squareKolobok</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/squareKolobok/StyleRulesExtension</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>StyleRulesExtension</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
@@ -31,6 +32,7 @@
 
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <Target Name="_AddAnalyzersToOutput">
