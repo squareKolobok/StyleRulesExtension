@@ -42,20 +42,39 @@ namespace StyleRulesExtensions
 
         private async Task<Document> RemoveBrackets(Document document, IfStatementSyntax ifStatement, CancellationToken cancellationToken)
         {
-            var block = ifStatement.Statement as BlockSyntax;
+            var ifBlock = ifStatement.Statement as BlockSyntax;
+            var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
+            var newIfBlock = GetNewBlockStatement(ifBlock);
+            var newElseBlock = GetNewBlockStatement(elseBlock);
+            IfStatementSyntax newIfStatement = ifStatement;
+
+            if (newIfBlock != null)
+                newIfStatement = ifStatement.WithStatement(newIfBlock);
+
+            if (newElseBlock != null)
+            {
+                var elseClause = ifStatement.Else;
+                var newElseClause = elseClause.WithStatement(newElseBlock);
+                newIfStatement = newIfStatement.WithElse(newElseClause);
+            }
+
+            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            var newRoot = oldRoot.ReplaceNode(ifStatement, newIfStatement);
+
+            return document.WithSyntaxRoot(newRoot);
+        }
+
+        private StatementSyntax GetNewBlockStatement(BlockSyntax block)
+        {
+            if (block == null || block.Statements.Count != 1)
+                return block;
+
             var leadingTrivia = block.Statements[0].GetLeadingTrivia();
 
-            var newStatement = block.Statements[0]
+            return block.Statements[0]
                 .WithLeadingTrivia(block.OpenBraceToken.LeadingTrivia)
                 .WithTrailingTrivia(block.CloseBraceToken.TrailingTrivia)
                 .WithLeadingTrivia(leadingTrivia);
-
-            var newIfStatmen = ifStatement.WithStatement(newStatement);
-
-            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-            var newRoot = oldRoot.ReplaceNode(ifStatement, newIfStatmen);
-
-            return document.WithSyntaxRoot(newRoot);
         }
     }
 }

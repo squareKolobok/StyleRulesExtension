@@ -42,12 +42,23 @@ namespace StyleRulesExtensions
             var startLine = conditionSpan.StartLinePosition.Line;
             var endLine = conditionSpan.EndLinePosition.Line;
             var conditionCountLines = endLine - startLine + 1;
-            var block = ifStatement.Statement as BlockSyntax;
 
-            if (conditionCountLines > 1 || block == null || block.Statements.Count != 1)
+            if (conditionCountLines > 1)
                 return;
 
-            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation()));
+            var ifBlock = ifStatement.Statement as BlockSyntax;
+            var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
+
+            AnalyzeBlock(context, ifBlock);
+            AnalyzeBlock(context, elseBlock);
+        }
+
+        private void AnalyzeBlock(SyntaxNodeAnalysisContext context, BlockSyntax block)
+        {
+            if (block == null || block.Statements.Count != 1)
+                return;
+
+            context.ReportDiagnostic(Diagnostic.Create(Rule, block.GetLocation()));
         }
     }
 }
