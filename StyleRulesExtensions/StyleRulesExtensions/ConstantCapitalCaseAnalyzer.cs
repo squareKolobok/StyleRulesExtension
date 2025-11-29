@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StyleRulesExtensions
 {
@@ -15,7 +16,8 @@ namespace StyleRulesExtensions
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.ConstantCapitalCaseTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.ConstantCapitalCaseMessageFormat), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.ConstantCapitalCaseDescription), Resources.ResourceManager, typeof(Resources));
-
+        private static readonly Regex nameRegex = new Regex("^[A-Z][A-Z0-9_]*[A-Z0-9]$");
+        
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             DiagnosticId,
             Title,
@@ -63,7 +65,7 @@ namespace StyleRulesExtensions
 
         private void Analyze(SyntaxNodeAnalysisContext context, VariableDeclaratorSyntax variable, string name)
         {
-            if (name.All(x => (char.IsUpper(x) && char.IsLetter(x)) || x == '_' || char.IsDigit(x)))
+            if (nameRegex.IsMatch(name))
                 return;
 
             var diagnostic = Diagnostic.Create(Rule, variable.Identifier.GetLocation(), name);

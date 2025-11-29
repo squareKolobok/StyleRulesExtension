@@ -74,6 +74,7 @@ namespace StyleRulesExtensions.Test
 					public const int [|const_name2|] = 2;
 					protected const int [|const_name3|] = 3;
 					const int [|const_name4|] = 4;
+					const int [|_CONST_NAME5|] = 5;
 
 					public static void Main()
 					{
@@ -97,6 +98,7 @@ namespace StyleRulesExtensions.Test
 					public static void Main()
 					{
 						const int [|myConst|] = 1;
+						const int [|_MY_CONST2|] = 2;
 					}
 				}
 			}";
@@ -105,7 +107,7 @@ namespace StyleRulesExtensions.Test
         }
 
         [TestMethod]
-        public async Task PrivateFieldsNamingAreNotCorrect_FixAnythere()
+        public async Task PrivateFieldsNamingAreNotCorrect_FixName()
         {
             var test = @"
 			using System.Threading.Tasks;
@@ -119,11 +121,13 @@ namespace StyleRulesExtensions.Test
 					protected const int [|const_name3|] = 3;
 					internal const int [|const_name4|] = 4;
 					const int CONST_NAME5 = 5;
+					const int [|_CONST__NAME6_|] = 6;
 
 					public static void Main()
 					{
 						const int [|myConst|] = 1;
 						const int MY_CONST2 = 2;
+						const int [|_MY__CONST3_|] = 3;
 					}
 				}
 			}";
@@ -140,11 +144,13 @@ namespace StyleRulesExtensions.Test
 					protected const int CONST_NAME3 = 3;
 					internal const int CONST_NAME4 = 4;
 					const int CONST_NAME5 = 5;
+					const int CONST_NAME6 = 6;
 
 					public static void Main()
 					{
 						const int MYCONST = 1;
 						const int MY_CONST2 = 2;
+						const int MY_CONST3 = 3;
 					}
 				}
 			}";

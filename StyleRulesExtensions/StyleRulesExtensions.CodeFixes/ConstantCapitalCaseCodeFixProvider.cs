@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Rename;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -57,7 +58,22 @@ namespace StyleRulesExtensions
                 variable = localDeclaration.Declaration.Variables.First();
 
             var name = variable.Identifier.Text;
-            var newName = name.ToUpper();
+            var newNameChars = new List<char>();
+
+            foreach (var charSymbol in name)
+            {
+                if (charSymbol == '_' && newNameChars.LastOrDefault() != '_')
+                    newNameChars.Add(charSymbol);
+
+                if (char.IsDigit(charSymbol) || char.IsUpper(charSymbol))
+                    newNameChars.Add(charSymbol);
+
+                if (char.IsLower(charSymbol))
+                    newNameChars.Add(char.ToUpper(charSymbol));
+            }
+
+            var newName = new string(newNameChars.ToArray());
+            newName = newName.Trim('_');
 
             var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
             var symbol = semanticModel.GetDeclaredSymbol(variable, cancellationToken);
