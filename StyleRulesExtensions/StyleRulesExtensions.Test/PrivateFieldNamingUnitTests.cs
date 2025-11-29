@@ -19,6 +19,7 @@ namespace StyleRulesExtensions.Test
 			{
 				class Program
 				{
+					private const int MY_CONST = 1;
 					protected int Field1 = 1;
 					public int Field2 = 2;
 					internal int Field3 = 3;
@@ -43,6 +44,7 @@ namespace StyleRulesExtensions.Test
 			{
 				class Program
 				{
+					private const int MY_CONST = 1;
 					private int [|Field1|] = 1;
 
 					public static void Main()
@@ -64,6 +66,7 @@ namespace StyleRulesExtensions.Test
 			{
 				class Program
 				{
+					private const int MY_CONST = 1;
 					private int [|field1|] = 1;
 
 					public static void Main()
@@ -85,6 +88,7 @@ namespace StyleRulesExtensions.Test
 			{ 
 				class Program
 				{
+					private const int MY_CONST = 1;
 					private int _field1 = 1;
 
 					public static void Main()
@@ -106,6 +110,7 @@ namespace StyleRulesExtensions.Test
 			{ 
 				class Program
 				{
+					private const int MY_CONST = 1;
 					private int [|Field1|] = 1;
 					private int [|field2|] = 2;
 					private int [|_Field3|] = 3;
@@ -129,6 +134,7 @@ namespace StyleRulesExtensions.Test
 			{ 
 				class Program
 				{
+					private const int MY_CONST = 1;
 					private int _field1 = 1;
 					private int _field2 = 2;
 					private int _field3 = 3;

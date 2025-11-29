@@ -40,10 +40,11 @@ namespace StyleRulesExtensions
 
             var fieldDeclaration = (FieldDeclarationSyntax)context.Node;
             var isPrivate = fieldDeclaration.Modifiers.Any(SyntaxKind.PrivateKeyword);
+            var isConst = fieldDeclaration.Modifiers.Any(SyntaxKind.ConstKeyword);
             var variable = fieldDeclaration.Declaration.Variables.FirstOrDefault();
             var name = variable?.Identifier.Text;
 
-            if (string.IsNullOrEmpty(name) || !isPrivate)
+            if (string.IsNullOrEmpty(name) || !isPrivate || isConst)
                 return;
 
             if (name.Length >= MIN_NAME_LENGTH && name.First() == '_' && char.IsLower(name[1]))
