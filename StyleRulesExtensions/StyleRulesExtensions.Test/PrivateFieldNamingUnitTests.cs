@@ -13,23 +13,23 @@ namespace StyleRulesExtensions.Test
         public async Task NotPrivateFieldsNamingInPacalCase_NoDiagnostic()
         {
             var test = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{
-				class Program
-				{
-					private const int MY_CONST = 1;
-					protected int Field1 = 1;
-					public int Field2 = 2;
-					internal int Field3 = 3;
-					int Field4 = 4;
+            namespace ConsoleApp
+            {
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    protected int Field1 = 1;
+                    public int Field2 = 2;
+                    internal int Field3 = 3;
+                    int Field4 = 4;
 
-					public static void Main()
-					{
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                    }
+                }
+            }";
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
@@ -38,20 +38,21 @@ namespace StyleRulesExtensions.Test
         public async Task PrivateFieldNamingInPacalCase_Diagnostic()
         {
             var test = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{
-				class Program
-				{
-					private const int MY_CONST = 1;
-					private int [|Field1|] = 1;
+            namespace ConsoleApp
+            {
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    private int [|Field1|] = 1;
+                    private int [|_my_field|] = 1;
 
-					public static void Main()
-					{
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                    }
+                }
+            }";
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
@@ -60,20 +61,20 @@ namespace StyleRulesExtensions.Test
         public async Task PrivateFieldNamingInCamelCaseWithoutUnderscore_Diagnostic()
         {
             var test = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{
-				class Program
-				{
-					private const int MY_CONST = 1;
-					private int [|field1|] = 1;
+            namespace ConsoleApp
+            {
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    private int [|field1|] = 1;
 
-					public static void Main()
-					{
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                    }
+                }
+            }";
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
@@ -82,20 +83,20 @@ namespace StyleRulesExtensions.Test
         public async Task PrivateFieldNamingInCamelCaseWithUnderscore_NoDiagnostic()
         {
             var test = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{ 
-				class Program
-				{
-					private const int MY_CONST = 1;
-					private int _field1 = 1;
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    private int _field1 = 1;
 
-					public static void Main()
-					{
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                    }
+                }
+            }";
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
@@ -104,52 +105,62 @@ namespace StyleRulesExtensions.Test
         public async Task PrivateFieldsNamingAreNotCorrect_FixAnythere()
         {
             var test = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{ 
-				class Program
-				{
-					private const int MY_CONST = 1;
-					private int [|Field1|] = 1;
-					private int [|field2|] = 2;
-					private int [|_Field3|] = 3;
-					private int _field4 = 4;
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    private int [|Field1|] = 1;
+                    private int [|field2|] = 2;
+                    private int [|_Field3|] = 3;
+                    private int _field4 = 4;
+                    private int [|__field5|] = 4;
+                    private int [|_My_Field|] = 5;
+                    private int [|_my_field2|] = 6;
 
-					public static void Main()
-					{
-						var program = new Program();
-						program.Field1 = 1;
-						program.field2 = 2;
-						program._Field3 = 3;
-						program._field4 = 4;
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                        var program = new Program();
+                        program.Field1 = 1;
+                        program.field2 = 2;
+                        program._Field3 = 3;
+                        program._field4 = 4;
+                        program._My_Field = 5;
+                        program._my_field2 = 6;
+                    }
+                }
+            }";
 
             var fixtest = @"
-			using System.Threading.Tasks;
+            using System.Threading.Tasks;
 
-			namespace ConsoleApp
-			{ 
-				class Program
-				{
-					private const int MY_CONST = 1;
-					private int _field1 = 1;
-					private int _field2 = 2;
-					private int _field3 = 3;
-					private int _field4 = 4;
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    private const int MY_CONST = 1;
+                    private int _field1 = 1;
+                    private int _field2 = 2;
+                    private int _field3 = 3;
+                    private int _field4 = 4;
+                    private int _field5 = 4;
+                    private int _myField = 5;
+                    private int _myField2 = 6;
 
-					public static void Main()
-					{
-						var program = new Program();
-						program._field1 = 1;
-						program._field2 = 2;
-						program._field3 = 3;
-						program._field4 = 4;
-					}
-				}
-			}";
+                    public static void Main()
+                    {
+                        var program = new Program();
+                        program._field1 = 1;
+                        program._field2 = 2;
+                        program._field3 = 3;
+                        program._field4 = 4;
+                        program._myField = 5;
+                        program._myField2 = 6;
+                    }
+                }
+            }";
 
             await VerifyCS.VerifyCodeFixAsync(test, fixtest);
         }
