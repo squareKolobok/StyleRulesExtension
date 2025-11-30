@@ -49,16 +49,16 @@ namespace StyleRulesExtensions
             var ifBlock = ifStatement.Statement as BlockSyntax;
             var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
 
-            AnalyzeBlock(context, ifBlock);
-            AnalyzeBlock(context, elseBlock);
+            if (IsExistUnnecessaryBracesAnalyzeBlock(ifBlock) ||
+                IsExistUnnecessaryBracesAnalyzeBlock(elseBlock))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, ifStatement.GetLocation()));
+            }
         }
 
-        private void AnalyzeBlock(SyntaxNodeAnalysisContext context, BlockSyntax block)
+        private bool IsExistUnnecessaryBracesAnalyzeBlock(BlockSyntax block)
         {
-            if (block == null || block.Statements.Count != 1)
-                return;
-
-            context.ReportDiagnostic(Diagnostic.Create(Rule, block.GetLocation()));
+            return block != null && block.Statements.Count == 1;
         }
     }
 }

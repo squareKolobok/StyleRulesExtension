@@ -67,6 +67,18 @@ namespace StyleRulesExtensions
             if (nameRegex.IsMatch(name))
                 return;
 
+            if (symbol.Kind == SymbolKind.Method)
+            {
+                var methodSymbol = symbol as IMethodSymbol;
+
+                if (methodSymbol.MethodKind == MethodKind.PropertyGet ||
+                    methodSymbol.MethodKind == MethodKind.PropertySet ||
+                    methodSymbol.MethodKind != MethodKind.Ordinary)
+                {
+                    return;
+                }
+            }
+
             var diagnostic = Diagnostic.Create(Rule, symbol.Locations[0], name);
             context.ReportDiagnostic(diagnostic);
         }

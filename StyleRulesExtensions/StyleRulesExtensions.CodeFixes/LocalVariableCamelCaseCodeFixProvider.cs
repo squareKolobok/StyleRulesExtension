@@ -36,13 +36,13 @@ namespace StyleRulesExtensions
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: CodeFixResources.MethodEndsAsyncTitle,
-                    createChangedSolution: cancellationToken => RenameMethodAsync(context.Document, declaration, cancellationToken),
-                    equivalenceKey: nameof(CodeFixResources.MethodEndsAsyncTitle)),
+                    title: CodeFixResources.LocalVariableCamelCaseTitle,
+                    createChangedSolution: cancellationToken => RenameLocalVariable(context.Document, declaration, cancellationToken),
+                    equivalenceKey: nameof(CodeFixResources.LocalVariableCamelCaseTitle)),
                 diagnostic);
         }
 
-        private async Task<Solution> RenameMethodAsync(
+        private async Task<Solution> RenameLocalVariable(
             Document document,
             LocalDeclarationStatementSyntax localDeclaration,
             CancellationToken cancellationToken)

@@ -22,6 +22,8 @@ namespace StyleRulesExtensions.Test
             {
                 class TypeName
                 {
+                    public TypeName() { }
+                    
                     public int TestProperty { get; set; }
 
                     public void Test(int param)
