@@ -195,7 +195,7 @@ namespace StyleRulesExtensions.Test
 
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
-        
+
         [TestMethod]
         public async Task UnnecessaryBraces_ElseWithBracesAndOneExression_Diagnostic()
         {
@@ -219,6 +219,158 @@ namespace StyleRulesExtensions.Test
             }";
 
             await VerifyCS.VerifyAnalyzerAsync(test);
+        }
+
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfIntoIfElse_NoDiagnostic()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        if (x == 2)
+                        {
+                            if (x ==2)
+                                x = 3;
+                        }
+                        else
+                            x = 3;
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
+        }
+
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfElseIntoIfElse_Diagnostic()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        [|if (x == 2)
+                        {
+                            if (x ==2)
+                                x = 3;
+                            else
+                                x = 3;
+                        }
+                        else
+                            x = 3;|]
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
+        }
+
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfIntoIfElse_FixOnlyElse()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        [|if (x == 2)
+                        {
+                            if (x ==2)
+                                x = 3;
+                        }
+                        else
+                        {
+                            x = 3;
+                        }|]
+                    }
+                }
+            }";
+
+            var fixtest = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        if (x == 2)
+                        {
+                            if (x ==2)
+                                x = 3;
+                        }
+                        else
+                            x = 3;
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyCodeFixAsync(test, fixtest);
+        }
+        
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfElseIntoIfElse_FixIfAndElse()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        [|if (x == 2)
+                        {
+                            if (x ==2)
+                                x = 3;
+                            else
+                                x = 3;
+                        }
+                        else
+                        {
+                            x = 3;
+                        }|]
+                    }
+                }
+            }";
+
+            var fixtest = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        if (x == 2)
+                            if (x ==2)
+                                x = 3;
+                            else
+                                x = 3;
+                        else
+                            x = 3;
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyCodeFixAsync(test, fixtest);
         }
     }
 }

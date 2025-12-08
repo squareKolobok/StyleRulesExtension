@@ -46,8 +46,9 @@ namespace StyleRulesExtensions
                 return;
 
             var identifier = identifierReturnType?.Identifier.ValueText ?? genericReturnType.Identifier.ValueText;
+            var isOverrided = method.Modifiers.Any(SyntaxKind.OverrideKeyword);
 
-            if (identifier != "Task" || name.EndsWith("Async"))
+            if (isOverrided || identifier != "Task" || name.EndsWith("Async"))
                 return;
 
             var isPublic = method.Modifiers.Any(SyntaxKind.PublicKeyword);

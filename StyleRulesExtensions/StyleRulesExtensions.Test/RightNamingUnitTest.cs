@@ -136,7 +136,7 @@ namespace StyleRulesExtensions.Test
                 class TypeName
                 {
                     public int TestField = 1;
-                    public int [|TestPropertyПлохое|] { [|get|]; [|set|]; }
+                    public int [|TestPropertyПлохое|] { get; set; }
 
                     public void Test(int param)
                     {

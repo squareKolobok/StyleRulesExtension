@@ -18,7 +18,8 @@ namespace StyleRulesExtensions
 
         protected override bool NeedEndDiagnistic(IMethodSymbol symbol)
         {
-            if (symbol.MethodKind == MethodKind.PropertyGet ||
+            if (symbol.IsOverride ||
+                symbol.MethodKind == MethodKind.PropertyGet ||
                 symbol.MethodKind == MethodKind.PropertySet)
             {
                 return true;

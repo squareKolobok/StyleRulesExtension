@@ -46,17 +46,27 @@ namespace StyleRulesExtensions
             if (conditionCountLines > 1)
                 return;
 
-            var ifBlock = ifStatement.Statement as BlockSyntax;
             var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
 
-            if (IsExistUnnecessaryBracesAnalyzeBlock(ifBlock) ||
-                IsExistUnnecessaryBracesAnalyzeBlock(elseBlock))
+            if (IsExistUnnecessaryBracesIf(ifStatement) ||
+                IsExistUnnecessaryBracesElse(elseBlock))
             {
                 context.ReportDiagnostic(Diagnostic.Create(Rule, ifStatement.GetLocation()));
             }
         }
 
-        private bool IsExistUnnecessaryBracesAnalyzeBlock(BlockSyntax block)
+        private bool IsExistUnnecessaryBracesIf(IfStatementSyntax ifStatement)
+        {
+            var isExistElse = ifStatement.Else != null;
+            var ifBlock = ifStatement.Statement as BlockSyntax;
+            var isOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
+            var isExistInnerIf = isOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
+            var isNotExistInnerElse = isExistInnerIf && (ifBlock.Statements.First() as IfStatementSyntax).Else == null;
+
+            return isOneStatement && !(isExistElse && isExistInnerIf && isNotExistInnerElse);
+        }
+
+        private bool IsExistUnnecessaryBracesElse(BlockSyntax block)
         {
             return block != null && block.Statements.Count == 1;
         }

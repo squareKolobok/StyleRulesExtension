@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace StyleRulesExtensions
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class BasePascalCaseNamingAnalyzer<TSymbol> : DiagnosticAnalyzer where TSymbol : ISymbol
     {
         private const string Category = "Naming";

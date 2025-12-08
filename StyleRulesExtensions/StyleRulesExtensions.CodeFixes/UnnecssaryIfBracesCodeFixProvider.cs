@@ -43,12 +43,16 @@ namespace StyleRulesExtensions
         private async Task<Document> RemoveBrackets(Document document, IfStatementSyntax ifStatement, CancellationToken cancellationToken)
         {
             var ifBlock = ifStatement.Statement as BlockSyntax;
+            var isExistElse = ifStatement.Else != null;
+            var isOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
+            var isExistInnerIf = isOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
+            var isNotExistInnerElse = isExistInnerIf && (ifBlock.Statements.First() as IfStatementSyntax).Else == null;
             var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
             var newIfBlock = GetNewBlockStatement(ifBlock);
             var newElseBlock = GetNewBlockStatement(elseBlock);
             IfStatementSyntax newIfStatement = ifStatement;
 
-            if (newIfBlock != null)
+            if (newIfBlock != null && isOneStatement && !(isExistElse && isExistInnerIf && isNotExistInnerElse))
                 newIfStatement = ifStatement.WithStatement(newIfBlock);
 
             if (newElseBlock != null)
