@@ -6,14 +6,14 @@ namespace StyleRulesExtensions
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class ClassNamingAnalyzer : BasePascalCaseNamingAnalyzer<INamedTypeSymbol>
     {
-        public const string DiagnosticId = "class_naming";
+        public const string DIAGNOSTIC_ID = "class_naming";
 
-        private static readonly SymbolKind symbolKind = SymbolKind.NamedType;
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly SymbolKind _symbolKind = SymbolKind.NamedType;
+        private static readonly LocalizableString _title = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString _messageFormat = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString _description = new LocalizableResourceString(nameof(Resources.ClassNaminAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
 
-        public ClassNamingAnalyzer() : base(symbolKind, DiagnosticId, Title, MessageFormat, Description)
+        public ClassNamingAnalyzer() : base(_symbolKind, DIAGNOSTIC_ID, _title, _messageFormat, _description)
         { }
     }
 }

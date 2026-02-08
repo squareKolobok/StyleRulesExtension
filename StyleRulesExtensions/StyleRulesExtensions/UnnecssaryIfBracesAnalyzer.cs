@@ -9,23 +9,23 @@ namespace StyleRulesExtensions
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class UnnecssaryIfBracesAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "unnecssary_if_braces";
+        public const string DIAGNOSTIC_ID = "unnecssary_if_braces";
 
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString _title = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString _messageFormat = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString _description = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
         private const string CATEGORY = "Usage";
 
-        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-            DiagnosticId,
-            Title,
-            MessageFormat,
+        private static readonly DiagnosticDescriptor _rule = new DiagnosticDescriptor(
+            DIAGNOSTIC_ID,
+            _title,
+            _messageFormat,
             CATEGORY,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
-            description: Description);
+            description: _description);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(_rule); } }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -48,7 +48,7 @@ namespace StyleRulesExtensions
             if (IsExistUnnecessaryBracesIf(ifStatement) ||
                 IsExistUnnecessaryBracesElse(elseBlock))
             {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, ifStatement.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(_rule, ifStatement.GetLocation()));
             }
         }
 

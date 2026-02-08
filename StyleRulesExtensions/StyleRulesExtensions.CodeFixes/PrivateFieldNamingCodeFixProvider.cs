@@ -17,7 +17,7 @@ namespace StyleRulesExtensions
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(PrivateFieldNamingAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(PrivateFieldNamingAnalyzer.DIAGNOSTIC_ID); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -91,7 +91,7 @@ namespace StyleRulesExtensions
 
             return newSolution;
         }
-        
+
         private bool ContainsLetterOrDigit(string name, int length)
         {
             for (var index = length; index >= 0; --index)

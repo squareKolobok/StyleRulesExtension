@@ -15,7 +15,7 @@ namespace StyleRulesExtensions
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(MethodNamingAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(MethodNamingAnalyzer.DIAGNOSTIC_ID); }
         }
 
         protected sealed override string GetName(MethodDeclarationSyntax declaration)

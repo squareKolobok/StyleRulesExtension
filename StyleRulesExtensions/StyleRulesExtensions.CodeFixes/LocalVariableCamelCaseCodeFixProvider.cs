@@ -17,7 +17,7 @@ namespace StyleRulesExtensions
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(LocalVariableCamelCaseAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(LocalVariableCamelCaseAnalyzer.DIAGNOSTIC_ID); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -37,12 +37,12 @@ namespace StyleRulesExtensions
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: CodeFixResources.LocalVariableCamelCaseTitle,
-                    createChangedSolution: cancellationToken => RenameLocalVariable(context.Document, declaration, cancellationToken),
+                    createChangedSolution: cancellationToken => RenameLocalVariableAsync(context.Document, declaration, cancellationToken),
                     equivalenceKey: nameof(CodeFixResources.LocalVariableCamelCaseTitle)),
                 diagnostic);
         }
 
-        private async Task<Solution> RenameLocalVariable(
+        private async Task<Solution> RenameLocalVariableAsync(
             Document document,
             LocalDeclarationStatementSyntax localDeclaration,
             CancellationToken cancellationToken)
@@ -70,7 +70,7 @@ namespace StyleRulesExtensions
                         newNameArray.Add(charSymbol);
                     else
                         newNameArray.Add(char.ToLower(charSymbol));
-                        
+
                     continue;
                 }
 

@@ -7,10 +7,10 @@ namespace StyleRulesExtensions
 {
     public abstract class BasePascalCaseNamingAnalyzer<TSymbol> : DiagnosticAnalyzer where TSymbol : ISymbol
     {
-        private const string Category = "Naming";
+        private const string CATEGORY = "Naming";
         private readonly DiagnosticDescriptor _rule;
         private readonly SymbolKind _symbolKind;
-        private static readonly Regex nameRegex = new Regex("^@?[A-Z][a-zA-Z0-9]*$");
+        private static readonly Regex _nameRegex = new Regex("^@?[A-Z][a-zA-Z0-9]*$");
 
         public BasePascalCaseNamingAnalyzer(SymbolKind symbolKind, string diagnosticId, LocalizableString title, LocalizableString messageFormat, LocalizableString description)
         {
@@ -19,7 +19,7 @@ namespace StyleRulesExtensions
                 diagnosticId,
                 title,
                 messageFormat,
-                Category,
+                CATEGORY,
                 DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: description);
@@ -50,7 +50,7 @@ namespace StyleRulesExtensions
             if (string.IsNullOrEmpty(name))
                 return;
 
-            if (nameRegex.IsMatch(name))
+            if (_nameRegex.IsMatch(name))
                 return;
 
             var diagnostic = Diagnostic.Create(_rule, namedTypeSymbol.Locations[0], name);

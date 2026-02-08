@@ -16,7 +16,7 @@ namespace StyleRulesExtensions
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(MethodEndsAsyncAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(MethodEndsAsyncAnalyzer.DIAGNOSTIC_ID); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()

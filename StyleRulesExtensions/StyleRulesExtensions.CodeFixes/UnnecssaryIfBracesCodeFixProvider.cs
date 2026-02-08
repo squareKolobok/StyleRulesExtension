@@ -15,7 +15,7 @@ namespace StyleRulesExtensions
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(UnnecssaryIfBracesAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(UnnecssaryIfBracesAnalyzer.DIAGNOSTIC_ID); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
@@ -35,12 +35,12 @@ namespace StyleRulesExtensions
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: CodeFixResources.UnnecssaryIfBracesTitle,
-                    createChangedDocument: cancellationToken => RemoveBrackets(context.Document, declaration, cancellationToken),
+                    createChangedDocument: cancellationToken => RemoveBracketsAsync(context.Document, declaration, cancellationToken),
                     equivalenceKey: nameof(CodeFixResources.UnnecssaryIfBracesTitle)),
                 diagnostic);
         }
 
-        private async Task<Document> RemoveBrackets(Document document, IfStatementSyntax ifStatement, CancellationToken cancellationToken)
+        private async Task<Document> RemoveBracketsAsync(Document document, IfStatementSyntax ifStatement, CancellationToken cancellationToken)
         {
             var ifBlock = ifStatement.Statement as BlockSyntax;
             var isExistElse = ifStatement.Else != null;
