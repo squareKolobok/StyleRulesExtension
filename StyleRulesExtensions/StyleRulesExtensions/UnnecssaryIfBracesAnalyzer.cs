@@ -14,13 +14,13 @@ namespace StyleRulesExtensions
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.UnnecssaryIfBracesAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-        private const string Category = "Usage";
+        private const string CATEGORY = "Usage";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             DiagnosticId,
             Title,
             MessageFormat,
-            Category,
+            CATEGORY,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: Description);
@@ -39,11 +39,8 @@ namespace StyleRulesExtensions
             var ifStatement = (IfStatementSyntax)context.Node;
             var condition = ifStatement.Condition;
             var conditionSpan = condition.GetLocation().GetLineSpan();
-            var startLine = conditionSpan.StartLinePosition.Line;
-            var endLine = conditionSpan.EndLinePosition.Line;
-            var conditionCountLines = endLine - startLine + 1;
 
-            if (conditionCountLines > 1)
+            if (HasManyLines(conditionSpan))
                 return;
 
             var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
@@ -55,20 +52,34 @@ namespace StyleRulesExtensions
             }
         }
 
+        private bool HasManyLines(FileLinePositionSpan positionSpan)
+        {
+            var startLine = positionSpan.StartLinePosition.Line;
+            var endLine = positionSpan.EndLinePosition.Line;
+            var countLines = endLine - startLine + 1;
+
+            return countLines > 1;
+        }
+
         private bool IsExistUnnecessaryBracesIf(IfStatementSyntax ifStatement)
         {
             var isExistElse = ifStatement.Else != null;
             var ifBlock = ifStatement.Statement as BlockSyntax;
-            var isOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
-            var isExistInnerIf = isOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
+            var hasOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
+            var isExistInnerIf = hasOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
             var isNotExistInnerElse = isExistInnerIf && (ifBlock.Statements.First() as IfStatementSyntax).Else == null;
+            var hasManyLines = hasOneStatement && HasManyLines(ifBlock.Statements.First().GetLocation().GetLineSpan());
 
-            return isOneStatement && !(isExistElse && isExistInnerIf && isNotExistInnerElse);
+            return !hasManyLines && hasOneStatement && !(isExistElse && isExistInnerIf && isNotExistInnerElse);
         }
 
         private bool IsExistUnnecessaryBracesElse(BlockSyntax block)
         {
-            return block != null && block.Statements.Count == 1;
+            var isExistBlock = block != null;
+            var hasOneStatement = isExistBlock && block.Statements.Count == 1;
+            var hasManyLines = hasOneStatement && HasManyLines(block.Statements.First().GetLocation().GetLineSpan());
+
+            return block != null && block.Statements.Count == 1 && !hasManyLines;
         }
     }
 }

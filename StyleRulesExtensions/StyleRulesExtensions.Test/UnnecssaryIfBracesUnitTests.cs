@@ -235,8 +235,7 @@ namespace StyleRulesExtensions.Test
             
                         if (x == 2)
                         {
-                            if (x ==2)
-                                x = 3;
+                            if (x ==2) x = 3;
                         }
                         else
                             x = 3;
@@ -248,7 +247,7 @@ namespace StyleRulesExtensions.Test
         }
 
         [TestMethod]
-        public async Task UnnecessaryBraces_IfElseIntoIfElse_Diagnostic()
+        public async Task UnnecessaryBraces_IfElseIntoIfElse_NoDiagnostic()
         {
             var test = @"
             namespace ConsoleApp
@@ -259,7 +258,7 @@ namespace StyleRulesExtensions.Test
                     {
                         var x = 1;
             
-                        [|if (x == 2)
+                        if (x == 2)
                         {
                             if (x ==2)
                                 x = 3;
@@ -267,7 +266,7 @@ namespace StyleRulesExtensions.Test
                                 x = 3;
                         }
                         else
-                            x = 3;|]
+                            x = 3;
                     }
                 }
             }";
@@ -289,8 +288,7 @@ namespace StyleRulesExtensions.Test
             
                         [|if (x == 2)
                         {
-                            if (x ==2)
-                                x = 3;
+                            if (x ==2) x = 3;
                         }
                         else
                         {
@@ -311,8 +309,7 @@ namespace StyleRulesExtensions.Test
             
                         if (x == 2)
                         {
-                            if (x ==2)
-                                x = 3;
+                            if (x ==2) x = 3;
                         }
                         else
                             x = 3;
@@ -322,7 +319,7 @@ namespace StyleRulesExtensions.Test
 
             await VerifyCS.VerifyCodeFixAsync(test, fixtest);
         }
-        
+
         [TestMethod]
         public async Task UnnecessaryBraces_IfElseIntoIfElse_FixIfAndElse()
         {
@@ -360,12 +357,95 @@ namespace StyleRulesExtensions.Test
                         var x = 1;
             
                         if (x == 2)
+                        {
                             if (x ==2)
                                 x = 3;
                             else
                                 x = 3;
+                        }
                         else
                             x = 3;
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyCodeFixAsync(test, fixtest);
+        }
+
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfElseWithLongStatements_NoDiagnostic()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        if (x == 2)
+                        {
+                            x = x == 1
+                                ? 2
+                                : 1;
+                        }
+                        else
+                        {
+                            x = x == 3
+                                ? 2
+                                : 1;
+                        }
+                    }
+                }
+            }";
+
+            await VerifyCS.VerifyAnalyzerAsync(test);
+        }
+        
+        [TestMethod]
+        public async Task UnnecessaryBraces_IfWithLongStatements_fixOnlyElse()
+        {
+            var test = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        [|if (x == 2)
+                        {
+                            x = x == 1
+                                ? 2
+                                : 1;
+                        }
+                        else
+                        {
+                            x = 5;
+                        }|]
+                    }
+                }
+            }";
+
+            var fixtest = @"
+            namespace ConsoleApp
+            { 
+                class Program
+                {
+                    static void Main(string[] args)
+                    {
+                        var x = 1;
+            
+                        if (x == 2)
+                        {
+                            x = x == 1
+                                ? 2
+                                : 1;
+                        }
+                        else
+                            x = 5;
                     }
                 }
             }";

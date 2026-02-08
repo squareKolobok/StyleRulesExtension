@@ -44,18 +44,25 @@ namespace StyleRulesExtensions
         {
             var ifBlock = ifStatement.Statement as BlockSyntax;
             var isExistElse = ifStatement.Else != null;
-            var isOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
-            var isExistInnerIf = isOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
+            var hasOneStatement = ifBlock != null && ifBlock.Statements.Count == 1;
+            var isExistInnerIf = hasOneStatement && ifBlock.Statements.First() is IfStatementSyntax;
             var isNotExistInnerElse = isExistInnerIf && (ifBlock.Statements.First() as IfStatementSyntax).Else == null;
             var elseBlock = ifStatement.Else?.Statement as BlockSyntax;
+            var ifHasSingleStatementManyLines = SingleStatementHasManyLines(ifBlock);
+            var elseHasSingleStatementManyLines = SingleStatementHasManyLines(elseBlock);
             var newIfBlock = GetNewBlockStatement(ifBlock);
             var newElseBlock = GetNewBlockStatement(elseBlock);
             IfStatementSyntax newIfStatement = ifStatement;
 
-            if (newIfBlock != null && isOneStatement && !(isExistElse && isExistInnerIf && isNotExistInnerElse))
+            if (newIfBlock != null &&
+                hasOneStatement &&
+                !(isExistElse && isExistInnerIf && isNotExistInnerElse) &&
+                !ifHasSingleStatementManyLines)
+            {
                 newIfStatement = ifStatement.WithStatement(newIfBlock);
+            }
 
-            if (newElseBlock != null)
+            if (newElseBlock != null && !elseHasSingleStatementManyLines)
             {
                 var elseClause = ifStatement.Else;
                 var newElseClause = elseClause.WithStatement(newElseBlock);
@@ -68,9 +75,23 @@ namespace StyleRulesExtensions
             return document.WithSyntaxRoot(newRoot);
         }
 
-        private StatementSyntax GetNewBlockStatement(BlockSyntax block)
+        private bool SingleStatementHasManyLines(BlockSyntax block)
         {
             if (block == null || block.Statements.Count != 1)
+                return false;
+
+            var statement = block.Statements.First();
+            var positionSpan = statement.GetLocation().GetLineSpan();
+            var startLine = positionSpan.StartLinePosition.Line;
+            var endLine = positionSpan.EndLinePosition.Line;
+            var countLines = endLine - startLine + 1;
+
+            return countLines > 1;
+        }
+
+        private StatementSyntax GetNewBlockStatement(BlockSyntax block)
+        {
+            if (block == null || block.Statements.Count != 1 || SingleStatementHasManyLines(block))
                 return block;
 
             var leadingTrivia = block.Statements[0].GetLeadingTrivia();

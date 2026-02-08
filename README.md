@@ -230,6 +230,22 @@ else
     variable = 3;
 ```
 
+### Что не делает
+
+Не удаляет скобочки в теле if-else, если в теле находится другой одинокий if без else
+
+```csharp
+var someBool = true;
+var variable = 1;
+
+if (someBool)
+{
+    if (variable == 2) variable = 3;
+}
+else
+    variable = 4;
+```
+
 Не находит когда тело большое
 
 ```csharp
@@ -256,9 +272,19 @@ if (someBool &&
 }
 ```
 
-### Что не делает
+Не находит когда if содержит одно выражение на несколько строк
 
-- Не удаляет скобочки в теле if-else, если в теле находится другой одинокий if без else
+```csharp
+var someBool = true;
+var variable = 1;
+
+if (someBool)
+{
+    variable = variable == 2
+        ? 3
+        : 4;
+}
+```
 
 ## Проверка, что имена содержат только английские буквы, цифры и _
 
